@@ -1,0 +1,57 @@
+{
+  "pages": [
+    {
+      "url": "https://example.com/",
+      "discoverable": true
+    },
+    {
+      "url": "https://example.com/hub/",
+      "discoverable": true
+    },
+    {
+      "url": "https://example.com/guide/",
+      "discoverable": true
+    },
+    {
+      "url": "https://example.com/island-a/",
+      "discoverable": true
+    },
+    {
+      "url": "https://example.com/island-b/",
+      "discoverable": true
+    },
+    {
+      "url": "https://example.com/unlinked/",
+      "discoverable": true
+    }
+  ],
+  "entrypoints": [
+    "https://example.com/"
+  ],
+  "links": [
+    {
+      "source": "https://example.com/",
+      "target": "https://example.com/hub/",
+      "kind": "navigation",
+      "crawlable": true
+    },
+    {
+      "source": "https://example.com/hub/",
+      "target": "https://example.com/guide/",
+      "kind": "context",
+      "crawlable": true
+    },
+    {
+      "source": "https://example.com/island-a/",
+      "target": "https://example.com/island-b/",
+      "kind": "context",
+      "crawlable": true
+    },
+    {
+      "source": "https://example.com/island-b/",
+      "target": "https://example.com/island-a/",
+      "kind": "context",
+      "crawlable": true
+    }
+  ]
+}
