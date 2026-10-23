@@ -1,0 +1,12 @@
+{
+  "pages": [
+    {
+      "url": "https://example.com\u0000/",
+      "discoverable": true
+    }
+  ],
+  "links": [],
+  "entrypoints": [
+    "https://example.com\u0000/"
+  ]
+}

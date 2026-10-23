@@ -1,6 +1,7 @@
 """Inspect a supplied link graph offline; never crawl, rank or edit a website."""
 import argparse
 import json
+import unicodedata
 from collections import deque
 from urllib.parse import urlsplit
 
@@ -8,10 +9,12 @@ KINDS = {'navigation', 'breadcrumb', 'context', 'related', 'footer'}
 
 
 def url(value):
-    if not isinstance(value, str) or any(c.isspace() for c in value):
-        raise ValueError('URLs must be nonempty absolute HTTP(S) strings without whitespace')
+    if (not isinstance(value, str) or not value
+            or any(c.isspace() or unicodedata.category(c) in {'Cc', 'Cs'} for c in value)):
+        raise ValueError('URLs must be nonempty HTTP(S) strings without whitespace, controls or surrogates')
     p = urlsplit(value)
-    if p.scheme not in {'http', 'https'} or not p.hostname or p.username or p.password or p.fragment:
+    if (p.scheme not in {'http', 'https'} or not p.hostname
+            or p.username is not None or p.password is not None or '#' in value):
         raise ValueError('URLs must use HTTP(S), have a host, and have no credentials or fragment')
     try:
         p.port

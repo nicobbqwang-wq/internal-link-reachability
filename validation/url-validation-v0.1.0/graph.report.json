@@ -1,0 +1,79 @@
+{
+  "status": "ANALYZED",
+  "inventory_pages": 6,
+  "discoverable_pages": 6,
+  "reachable_discoverable_pages": 3,
+  "excluded_self_or_noncrawlable_rows": 0,
+  "unique_traversable_pairs": 4,
+  "pages": [
+    {
+      "url": "https://example.com/",
+      "entrypoint": true,
+      "reachable": true,
+      "min_hops": 0,
+      "incoming_sources": [],
+      "context_sources": [],
+      "no_incoming_candidate": false
+    },
+    {
+      "url": "https://example.com/guide/",
+      "entrypoint": false,
+      "reachable": true,
+      "min_hops": 2,
+      "incoming_sources": [
+        "https://example.com/hub/"
+      ],
+      "context_sources": [
+        "https://example.com/hub/"
+      ],
+      "no_incoming_candidate": false
+    },
+    {
+      "url": "https://example.com/hub/",
+      "entrypoint": false,
+      "reachable": true,
+      "min_hops": 1,
+      "incoming_sources": [
+        "https://example.com/"
+      ],
+      "context_sources": [],
+      "no_incoming_candidate": false
+    },
+    {
+      "url": "https://example.com/island-a/",
+      "entrypoint": false,
+      "reachable": false,
+      "min_hops": null,
+      "incoming_sources": [
+        "https://example.com/island-b/"
+      ],
+      "context_sources": [
+        "https://example.com/island-b/"
+      ],
+      "no_incoming_candidate": false
+    },
+    {
+      "url": "https://example.com/island-b/",
+      "entrypoint": false,
+      "reachable": false,
+      "min_hops": null,
+      "incoming_sources": [
+        "https://example.com/island-a/"
+      ],
+      "context_sources": [
+        "https://example.com/island-a/"
+      ],
+      "no_incoming_candidate": false
+    },
+    {
+      "url": "https://example.com/unlinked/",
+      "entrypoint": false,
+      "reachable": false,
+      "min_hops": null,
+      "incoming_sources": [],
+      "context_sources": [],
+      "no_incoming_candidate": true
+    }
+  ],
+  "limits": "Snapshot-only structural signals; not verified crawlability, relevance, indexation or ranking."
+}

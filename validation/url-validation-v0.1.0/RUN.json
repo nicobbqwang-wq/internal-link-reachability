@@ -1,0 +1,74 @@
+{
+  "releaseTag": "url-validation-v0.1.0",
+  "executedAt": "2026-10-23T02:07:01.029244+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "system": "Darwin",
+    "release": "25.6.0"
+  },
+  "testCount": 17,
+  "suiteExitCode": 0,
+  "newTestMethods": 7,
+  "suiteSeconds": 0.113,
+  "beforeFix": {
+    "testMethods": 17,
+    "failingSubcases": 25,
+    "productionBaselineCommit": "1ab2b869a756bcc3d82b84287fe8f3d116bfc062"
+  },
+  "programSha256": "fa798a73ba082d6458ad5b56878aa8780b7f69cd6001cbae5fc4231521725fa9",
+  "testsSha256": "1c231233c7f8425c42190a26d9a68428c32ab7cf79065e6a23a3db5ad9b1de86",
+  "examples": [
+    {
+      "input": "examples/graph.json",
+      "exit": 0,
+      "status": "ANALYZED",
+      "input_sha256": "65478399de46bc649a20a2b1d9011c723100fca79bcd9c81199ffa66a1a9ea53",
+      "report": "graph.report.json",
+      "report_sha256": "44c269302a3ee6cacfb1afbf16f923bfe4680dfc5aa078ed75b160b069006897"
+    },
+    {
+      "input": "examples/invalid-empty-fragment.json",
+      "exit": 2,
+      "status": "INVALID",
+      "input_sha256": "e1f4bef4b10d72380a0428d4dab60d7b1bd1263be0f09e268699e2b02b44af6d",
+      "report": "invalid-empty-fragment.report.json",
+      "report_sha256": "ab1b0179b7605c84bf39928522c75ab55c222067d7650e6ef1e9229d681560bf"
+    },
+    {
+      "input": "examples/invalid-empty-credentials.json",
+      "exit": 2,
+      "status": "INVALID",
+      "input_sha256": "3a0abfa2076ef689354c7068c141818c05625ad80610d0907fad2a2a16ead96c",
+      "report": "invalid-empty-credentials.report.json",
+      "report_sha256": "ab1b0179b7605c84bf39928522c75ab55c222067d7650e6ef1e9229d681560bf"
+    },
+    {
+      "input": "examples/invalid-control.json",
+      "exit": 2,
+      "status": "INVALID",
+      "input_sha256": "09344ef31f51d315568142cd969d841c4409e7ee78f1f317d85ffff0638eb59c",
+      "report": "invalid-control.report.json",
+      "report_sha256": "d945e92452300cb24327ac39693733454df00eb284f0a690ca7f8adea0ca2196"
+    },
+    {
+      "input": "examples/invalid-surrogate.json",
+      "exit": 2,
+      "status": "INVALID",
+      "input_sha256": "1e26cb313604b7ef3e74758d0264851c5f09f2932ad08b804f1bdac65d56baf8",
+      "report": "invalid-surrogate.report.json",
+      "report_sha256": "d945e92452300cb24327ac39693733454df00eb284f0a690ca7f8adea0ca2196"
+    }
+  ],
+  "originalExampleReportUnchanged": true,
+  "graphAlgorithmUnchanged": true,
+  "onlySyntheticFixturesUsed": true,
+  "externalNetworkRequiredByTool": false,
+  "humanReviewPerformed": false,
+  "skillHostsRetested": false,
+  "searchOrGeoOutcomes": "NOT_MEASURED",
+  "limitations": [
+    "Literal whitespace and Unicode Cc/Cs guards are not complete URL/RFC/DNS/security validation.",
+    "Percent-encoding is retained without decoding or canonicalization.",
+    "Only recorded Python/macOS environment executed; other systems/interpreters unknown."
+  ]
+}

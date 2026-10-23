@@ -4,6 +4,12 @@
 
 维护：**BBQ / BBQ Growth Lab** · [English](README.md) · [MIT](LICENSE)
 
+## 输入校验维护 · 2026-10-23
+
+本次拒绝空片段分隔符（`/#`）、空凭据（`https://@example.com/`）、字面控制字符和孤立代理码位。异常输入返回 JSON、退出码2，避免误通过或编码崩溃；正常 URL 原串和图分析报告保持不变。[17项实际测试记录](validation/url-validation-v0.1.0/README.md)。
+
+运行 `python3 reachability.py examples/invalid-surrogate.json` 可查看故意阻断的负例，正常使用见下方原示例。这只是已说明的输入防护，不是完整 URL 语法、安全或 DNS 审计；不解码百分号编码，合法 Unicode 路径仍原样保留。
+
 ## 谁能使用？怎样开始？
 
 适合技术 SEO 和内容团队排查发现路径。需要 Python 3.9+，无第三方依赖。下载或克隆后，在仓库目录运行：
@@ -49,3 +55,5 @@ python3 reachability.py my-graph.json > report.json
 来源：[BBQ Growth Lab 内链架构原文](https://bbqgrowthlab.com/zh-cn/articles/internal-linking-architecture-link-equity-guide/)，重点为页面全集、边类型与路径复核；2026-10-08 阅读。代码是其中一个窄范围检查实现，不复用原文业绩数值。[Google 链接指南](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) 用于核对可抓取链接定义，程序不检查网页标记。
 
 由 Codex 辅助制作，仅使用合成数据测试，见 [验证](VALIDATION.md) 和 [贡献说明](CONTRIBUTING.md)。敏感 URL 与客户资料应保留在私有环境。MIT 覆盖原创文件，不覆盖外部资料。
+
+URL parsing reference / 解析边界：[Python urllib.parse security notes](https://docs.python.org/3/library/urllib.parse.html#url-parsing-security). Public source article reread 2026-10-23; the earlier 2026-10-08 date remains the original implementation reading record.

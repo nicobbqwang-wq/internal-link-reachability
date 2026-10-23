@@ -4,6 +4,12 @@ Find pages with no incoming links **and** disconnected groups whose members link
 
 By **BBQ / BBQ Growth Lab** · [中文](README.zh-CN.md) · [MIT](LICENSE)
 
+## URL validation maintenance — 2026-10-23
+
+This update rejects empty fragment delimiters (`/#`), empty credentials (`https://@example.com/`), literal control characters and unpaired surrogate code points. Invalid URLs now give JSON with exit 2 instead of an accidental pass or encoding crash. Normal URL strings and the graph report are unchanged. [Actual 17-test record](validation/url-validation-v0.1.0/README.md).
+
+Try `python3 reachability.py examples/invalid-surrogate.json` for an intentionally blocked input; use the original example below for a successful analysis. Validation is limited to the documented guards, not every URL syntax rule or a security audit. Percent-encoded text is not decoded; normal Unicode paths remain exact.
+
 ## Start / Input / Review
 
 - [Run the example](#run-the-example)
@@ -63,3 +69,5 @@ There is no HTTP status check, redirect following, canonical resolution, JavaScr
 Method source: BBQ Growth Lab's [internal linking architecture article](https://bbqgrowthlab.com/zh-cn/articles/internal-linking-architecture-link-equity-guide/), especially inventory completeness, edge types and discovery-path review. Reviewed 2026-10-08. This repository implements a narrow graph check; it does not reproduce the article's performance anecdotes. [Google's link guidance](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) explains crawlable link markup; the tool does not itself inspect markup.
 
 Code, examples and worksheets were created with Codex assistance. Only synthetic data were tested; see [validation](VALIDATION.md). Keep confidential URLs and customer data out of public reports. [Contributions](CONTRIBUTING.md) should include synthetic reproductions. MIT covers original repository files; linked sources retain their own terms.
+
+URL parsing reference / 解析边界：[Python urllib.parse security notes](https://docs.python.org/3/library/urllib.parse.html#url-parsing-security). Public source article reread 2026-10-23; the earlier 2026-10-08 date remains the original implementation reading record.

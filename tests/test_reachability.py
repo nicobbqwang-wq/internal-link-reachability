@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from reachability import analyze
+from reachability import analyze, url
 
 
 class ReachabilityTests(unittest.TestCase):
@@ -66,6 +66,54 @@ class ReachabilityTests(unittest.TestCase):
     def test_cli_missing_file(self):
         r=subprocess.run([sys.executable,'reachability.py','absent.json'],capture_output=True,text=True)
         self.assertEqual(r.returncode,2);self.assertEqual(json.loads(r.stdout)['status'],'INVALID')
+
+    def test_empty_fragment_delimiter_is_rejected(self):
+        for value in ('https://example.com/#', 'https://example.com/?q=one#'):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                url(value)
+
+    def test_empty_credentials_are_rejected(self):
+        for value in ('https://@example.com/', 'https://:@example.com/'):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                url(value)
+
+    def test_literal_control_characters_are_rejected_before_parsing(self):
+        for control in ('\x00', '\x01', '\x1b', '\x7f', '\x85', '\x9f', '\t', '\n'):
+            for value in (control + 'https://example.com/',
+                          'https://example.com' + control + '/',
+                          'https://example.com/path' + control,
+                          'https://example.com/?q=' + control):
+                with self.subTest(value=repr(value)), self.assertRaises(ValueError):
+                    url(value)
+
+    def test_unpaired_surrogates_are_rejected(self):
+        for value in ('https://example.com/\ud800', 'https://example.com/\udfff'):
+            graph={'pages':[{'url':value,'discoverable':True}], 'links':[], 'entrypoints':[value]}
+            with self.subTest(value=repr(value)), self.assertRaises(ValueError):
+                analyze(graph)
+
+    def test_valid_unicode_and_encoded_delimiters_preserve_exact_urls(self):
+        for value in ('https://example.com/%23?contact=person%40example.com',
+                      'https://example.com/\u5185\u94fe/\U0001f4d6?q=a%20b',
+                      'HTTPS://example.com:443/Path?A=1'):
+            with self.subTest(value=value):
+                graph={'pages':[{'url':value,'discoverable':True}], 'links':[], 'entrypoints':[value]}
+                self.assertEqual(analyze(graph)['pages'][0]['url'], value)
+
+    def test_invalid_url_cli_returns_json_without_traceback(self):
+        for value in ('https://example.com/#', 'https://@example.com/',
+                      'https://example.com\x00/', 'https://example.com/\ud800'):
+            with self.subTest(value=repr(value)), tempfile.TemporaryDirectory() as tmp:
+                graph={'pages':[{'url':value,'discoverable':True}], 'links':[], 'entrypoints':[value]}
+                path=Path(tmp)/'graph.json';path.write_text(json.dumps(graph,ensure_ascii=True))
+                result=subprocess.run([sys.executable,'-B','reachability.py',str(path)],
+                                      capture_output=True,text=True)
+                self.assertEqual(result.returncode,2)
+                self.assertEqual(result.stderr,'')
+                self.assertEqual(json.loads(result.stdout)['status'],'INVALID')
+
+    def test_original_example_report_is_unchanged(self):
+        self.assertEqual(analyze(self.g),json.loads(Path('examples/report.json').read_text()))
 
 
 if __name__=='__main__': unittest.main()
